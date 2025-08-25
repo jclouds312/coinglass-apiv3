@@ -3,7 +3,7 @@
 [![Python 3.10](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/)
 
 ## Unofficial Python client for Coinglass API v3
-
+Edited and Developed by Universal Business Technology
 This project is a fork of the original [Coinglass API wrapper](https://github.com/dineshpinto/coinglass-api) by Dinesh Pinto, updated to support Coinglass API v3.
 
 This wrapper fetches data about crypto derivatives from the [Coinglass API v3](https://coinglass.com/pricing). All data is output in pandas DataFrames (single or multi-index) and all time-series data uses a `DateTimeIndex`. It supports all Coinglass API v3 endpoints.
@@ -83,6 +83,11 @@ top_long_short_position_ratio = cg.top_long_short_position_ratio_history(exchang
 ```
 
 Each method returns a pandas DataFrame with the requested data. You can further process or analyze this data as needed for your specific use case.
+
+## API Connectivity and Sample Data
+
+To verify the API connection and see sample data, you can use the `supported_coins()` and `supported_exchange_pairs()` methods:
+
 
 ## Example Visualization
 
