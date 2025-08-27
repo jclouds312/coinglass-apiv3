@@ -1,4 +1,0 @@
-{
-    "coinglass_url": "https://open-api-v3.coinglass.com/api/",
-    "coinglass_apikey": "notneededanymore,use export COINGLASS_API_KEY=yourapikey"
-  }
