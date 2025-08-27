@@ -1,11 +1,13 @@
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from coinglass_api.api import CoinglassAPIv3
 import os
 import pandas as pd
 import json
 
 app = Flask(__name__)
+CORS(app) # This will enable CORS for all routes
 
 # --- Helper Function ---
 def dataframe_to_json(df):
@@ -21,44 +23,44 @@ def dataframe_to_json(df):
 
 # --- API Initialization ---
 try:
+    # For security, the API key is stored in an environment variable.
     api_key = os.environ.get('COINGLASS_API_KEY')
     if not api_key:
-        raise ValueError("COINGLASS_API_KEY environment variable not set.")
+        raise ValueError("COINGLASS_API_KEY environment variable not set. Please set it to run the backend.")
     cg_api = CoinglassAPIv3(coinglass_secret=api_key)
 except (ValueError, Exception) as e:
     print(f"Error during API initialization: {e}")
     cg_api = None
 
 # --- API Endpoints ---
-@app.route('/')
+@app.route('/api')
 def index():
     """Provides a list of available endpoints."""
     return jsonify({
         "message": "Welcome to the Coinglass API Wrapper!",
         "endpoints": [
-            "/",
-            "/liquidation/history",
-            "/liquidation/aggregated-history",
-            "/liquidation/coin-list",
-            "/liquidation/exchange-list",
-            "/long-short-ratio/global-history",
-            "/long-short-ratio/top-account-history",
-            "/long-short-ratio/top-position-history",
-            "/funding-rate/ohlc-history",
-            "/open-interest/ohlc-history",
-            "/global/coins-markets",
-            "/global/pairs-markets",
-            "/spot/pairs-markets",
-            "/indicator/bitcoin-bubble-index",
-            "/indicator/fear-greed-index",
-            "/indicator/ahr999-index",
-            "/indicator/two-year-ma-multiplier",
-            "/indicator/puell-multiple"
+            "/api/liquidation/history",
+            "/api/liquidation/aggregated-history",
+            "/api/liquidation/coin-list",
+            "/api/liquidation/exchange-list",
+            "/api/long-short-ratio/global-history",
+            "/api/long-short-ratio/top-account-history",
+            "/api/long-short-ratio/top-position-history",
+            "/api/funding-rate/ohlc-history",
+            "/api/open-interest/ohlc-history",
+            "/api/global/coins-markets",
+            "/api/global/pairs-markets",
+            "/api/spot/pairs-markets",
+            "/api/indicator/bitcoin-bubble-index",
+            "/api/indicator/fear-greed-index",
+            "/api/indicator/ahr999-index",
+            "/api/indicator/two-year-ma-multiplier",
+            "/api/indicator/puell-multiple"
         ]
     })
 
 # --- Liquidation Endpoints ---
-@app.route('/liquidation/history')
+@app.route('/api/liquidation/history')
 def liquidation_history():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -73,7 +75,7 @@ def liquidation_history():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/liquidation/aggregated-history')
+@app.route('/api/liquidation/aggregated-history')
 def liquidation_aggregated_history():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -87,7 +89,7 @@ def liquidation_aggregated_history():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/liquidation/coin-list')
+@app.route('/api/liquidation/coin-list')
 def liquidation_coin_list():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -97,7 +99,7 @@ def liquidation_coin_list():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/liquidation/exchange-list')
+@app.route('/api/liquidation/exchange-list')
 def liquidation_exchange_list():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -109,7 +111,7 @@ def liquidation_exchange_list():
         return jsonify({"error": str(e)}), 500
 
 # --- Long/Short Ratio Endpoints ---
-@app.route('/long-short-ratio/global-history')
+@app.route('/api/long-short-ratio/global-history')
 def global_long_short_account_ratio():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -124,7 +126,7 @@ def global_long_short_account_ratio():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/long-short-ratio/top-account-history')
+@app.route('/api/long-short-ratio/top-account-history')
 def top_long_short_account_ratio():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -139,7 +141,7 @@ def top_long_short_account_ratio():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/long-short-ratio/top-position-history')
+@app.route('/api/long-short-ratio/top-position-history')
 def top_long_short_position_ratio_history():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -155,7 +157,7 @@ def top_long_short_position_ratio_history():
         return jsonify({"error": str(e)}), 500
 
 # --- Funding/Open Interest Endpoints ---
-@app.route('/funding-rate/ohlc-history')
+@app.route('/api/funding-rate/ohlc-history')
 def funding_rate_ohlc_history():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -170,7 +172,7 @@ def funding_rate_ohlc_history():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/open-interest/ohlc-history')
+@app.route('/api/open-interest/ohlc-history')
 def open_interest_ohlc_history():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -186,7 +188,7 @@ def open_interest_ohlc_history():
         return jsonify({"error": str(e)}), 500
 
 # --- Global and Spot Market Endpoints ---
-@app.route('/global/coins-markets')
+@app.route('/api/global/coins-markets')
 def coins_markets():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -200,7 +202,7 @@ def coins_markets():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/global/pairs-markets')
+@app.route('/api/global/pairs-markets')
 def pairs_markets():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -210,7 +212,7 @@ def pairs_markets():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/spot/pairs-markets')
+@app.route('/api/spot/pairs-markets')
 def spot_pairs_markets():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -221,7 +223,7 @@ def spot_pairs_markets():
         return jsonify({"error": str(e)}), 500
 
 # --- Indicator Endpoints ---
-@app.route('/indicator/bitcoin-bubble-index')
+@app.route('/api/indicator/bitcoin-bubble-index')
 def bitcoin_bubble_index():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -230,7 +232,7 @@ def bitcoin_bubble_index():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/indicator/fear-greed-index')
+@app.route('/api/indicator/fear-greed-index')
 def fear_greed_index():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -239,7 +241,7 @@ def fear_greed_index():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/indicator/ahr999-index')
+@app.route('/api/indicator/ahr999-index')
 def ahr999_index():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -248,7 +250,7 @@ def ahr999_index():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/indicator/two-year-ma-multiplier')
+@app.route('/api/indicator/two-year-ma-multiplier')
 def two_year_ma_multiplier():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -257,7 +259,7 @@ def two_year_ma_multiplier():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/indicator/puell-multiple')
+@app.route('/api/indicator/puell-multiple')
 def puell_multiple():
     if not cg_api: return jsonify({"error": "API not initialized"}), 500
     try:
@@ -268,5 +270,5 @@ def puell_multiple():
 
 if __name__ == "__main__":
     # Note: This is for local development and testing.
-    # Vercel will use a production WSGI server.
+    # For production, use a proper WSGI server like Gunicorn or uWSGI.
     app.run(host='0.0.0.0', port=8080)
