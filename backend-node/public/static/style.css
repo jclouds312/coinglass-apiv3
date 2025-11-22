@@ -19,7 +19,7 @@ header {
     margin-bottom: 20px;
 }
 
-.header-main {
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,12 +27,29 @@ header {
 }
 
 .logo img {
-    width: 40px; 
+    width: 40px;
     height: 40px;
 }
 
-.header-title .time {
-    font-size: 16px;
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.nav-link.active {
+    background-color: #007bff;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
 }
 
 .header-icons {
@@ -110,28 +127,6 @@ header {
 
 .crypto .change.negative {
     color: #f44336;
-}
-
-.tabs {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    background-color: #2a2a2a;
-    border-radius: 8px;
-}
-
-.tab-link {
-    background: none;
-    border: none;
-    color: #ffffff;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
-.tab-link.active {
-    background-color: #007bff;
 }
 
 .tab-content {
