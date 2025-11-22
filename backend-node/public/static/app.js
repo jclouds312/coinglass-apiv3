@@ -1,85 +1,105 @@
+
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE_URL = ''; // The base URL of the Node.js backend API
+    const tabs = document.querySelectorAll('.tab-link');
+    const contents = document.querySelectorAll('.tab-content');
+    const apiKeyInput = document.getElementById('api-key-input');
+    const saveApiKeyBtn = document.getElementById('save-api-key');
+    const technicalAnalysisGaugeCtx = document.getElementById('technical-analysis-gauge').getContext('2d');
 
-    // Chart.js instance
-    let priceChart = null;
+    // Tab switching logic
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(item => item.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
 
-    // Fetch data and update the dashboard
-    function updateDashboard() {
-        fetch(`${API_BASE_URL}/api/liquidation-history?exchange=BINANCE&symbol=BTC&interval=h1&limit=100`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const priceData = data.data;
-                    const latestData = priceData[priceData.length - 1];
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+    });
 
-                    // Update stats
-                    document.getElementById('current-price').textContent = `$${latestData.price.toLocaleString()}`;
-                    document.getElementById('high-price').textContent = `$${Math.max(...priceData.map(d => d.price)).toLocaleString()}`;
-                    document.getElementById('low-price').textContent = `$${Math.min(...priceData.map(d => d.price)).toLocaleString()}`;
-                    document.getElementById('volume').textContent = latestData.volume.toLocaleString();
-
-                    // Update chart
-                    updateChart(priceData);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-
-    // Initialize or update the Chart.js chart
-    function updateChart(priceData) {
-        const ctx = document.getElementById('price-chart').getContext('2d');
-        const labels = priceData.map(d => new Date(d.createTime).toLocaleTimeString());
-        const prices = priceData.map(d => d.price);
-
-        if (priceChart) {
-            priceChart.data.labels = labels;
-            priceChart.data.datasets[0].data = prices;
-            priceChart.update();
-        } else {
-            priceChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'BTC Price (USD)',
-                        data: prices,
-                        borderColor: '#1a73e8',
-                        backgroundColor: 'rgba(26, 115, 232, 0.1)',
-                        fill: true,
-                        tension: 0.4, // Make the line smooth
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Time'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Price (USD)'
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toLocaleString();
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+    // Save API key
+    saveApiKeyBtn.addEventListener('click', () => {
+        const apiKey = apiKeyInput.value;
+        if (apiKey) {
+            // Here you would typically send the API key to the backend to be stored securely
+            console.log('API Key saved:', apiKey);
+            alert('API Key guardada con éxito.');
         }
+    });
+
+    // Technical Analysis Gauge
+    const gauge = new Chart(technicalAnalysisGaugeCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Venta Fuerte', 'Venta', 'Neutral', 'Compra', 'Compra Fuerte'],
+            datasets: [{
+                data: [10, 15, 20, 25, 30],
+                backgroundColor: ['#f44336', '#ff9800', '#ffeb3b', '#4caf50', '#2196f3'],
+                borderWidth: 0,
+                circumference: 180, // Half circle
+                rotation: 270, // Start from the bottom
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: false
+                }
+            }
+        }
+    });
+
+    // Update gauge based on analysis
+    function updateGauge(sell, neutral, buy) {
+        const total = sell + neutral + buy;
+        const sellPercentage = (sell / total) * 100;
+        const neutralPercentage = (neutral / total) * 100;
+        const buyPercentage = (buy / total) * 100;
+
+        document.getElementById('sell-value').textContent = sell;
+        document.getElementById('neutral-value').textContent = neutral;
+        document.getElementById('buy-value').textContent = buy;
+
+        let pointerValue = 50; // Default to neutral
+        if (buy > sell) {
+            pointerValue = 50 + (buy / (buy + sell)) * 50;
+        } else if (sell > buy) {
+            pointerValue = 50 - (sell / (buy + sell)) * 50;
+        }
+
+        // This is a simplified logic for the needle. A real implementation might be more complex.
+        const needle = {
+            id: 'needle',
+            afterDatasetDraw(chart, args, options) {
+                const { ctx, data } = chart;
+                const angle = Math.PI * (pointerValue / 100) - Math.PI / 2;
+
+                const x = chart.getDatasetMeta(0).data[0].x;
+                const y = chart.getDatasetMeta(0).data[0].y;
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.moveTo(0, -5);
+                ctx.lineTo(80, 0);
+                ctx.lineTo(0, 5);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                ctx.restore();
+            }
+        };
+
+        gauge.config.plugins = [needle];
+        gauge.update();
     }
 
-    // Initial load and periodic updates
-    updateDashboard();
-    setInterval(updateDashboard, 60000); // Update every minute
+    // Initial gauge update
+    updateGauge(7, 8, 11);
 });
