@@ -12,7 +12,9 @@
     <div class="container">
         <header>
             <div class="header-main">
-                <button class="back-button">&lt;</button>
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                </div>
                 <div class="header-title">
                     <span class="time">1:00</span>
                 </div>
@@ -50,7 +52,7 @@
         <nav class="tabs">
             <button class="tab-link active" data-tab="panel">Panel</button>
             <button class="tab-link" data-tab="analisis">Análisis</button>
-            <button class="tab-link" data-tab="apis">APIs</button>
+            <button class="tab-link" data-tab="operar">Operar</button>
             <button class="tab-link" data-tab="senales">Señales</button>
         </nav>
 
@@ -90,25 +92,41 @@
                     </div>
                 </div>
             </div>
-            <div id="apis" class="tab-content">
-                <p>Contenido de APIs</p>
+            <div id="operar" class="tab-content">
+                <h2>Trading Automatizado</h2>
+                <div class="trading-widget">
+                    <label for="asset">Activo:</label>
+                    <input type="text" id="asset" name="asset" value="BTC/USD">
+                    <label for="amount">Cantidad:</label>
+                    <input type="number" id="amount" name="amount" value="0.1">
+                    <button class="trade-btn">Comprar</button>
+                    <button class="trade-btn">Vender</button>
+                    <button class="close-trade-btn">Cerrar Trade</button>
+                </div>
             </div>
             <div id="senales" class="tab-content">
-                <p>Contenido de Señales</p>
+                <h2>Señales de Trading</h2>
+                <div class="signal">
+                    <p><strong>Activo:</strong> ETH/USD</p>
+                    <p><strong>Señal:</strong> Compra Fuerte</p>
+                    <p><strong>Precio de Entrada:</strong> $3,500</p>
+                    <p><strong>Stop Loss:</strong> $3,400</p>
+                    <p><strong>Take Profit:</strong> $3,600</p>
+                </div>
             </div>
             <div id="ajustes" class="tab-content">
                 <div class="api-settings">
                     <h2>Configuración de API</h2>
                     <p>Introduce tu clave de API de Coinglass para habilitar la funcionalidad completa.</p>
                     <input type="password" id="api-key-input" placeholder="Tu clave de API" value="1bad70fd234f4888ad5f84503d939b73">
-                    <input type="checkbox" id="show-api-key"> Mostrar/Ocultar Clave
+                    <input type="checkbox" id="show-api-key"> Mostrar/Ocular Clave
                     <button id="save-api-key">Guardar Clave</button>
                 </div>
             </div>
             <div id="admin" class="tab-content">
                 <h2>Panel de Administrador</h2>
                 <p>Bienvenido al panel de administrador. Aquí puedes gestionar la configuración de la aplicación.</p>
-                </div>
+            </div>
         </main>
     </div>
 
