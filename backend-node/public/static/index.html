@@ -11,22 +11,27 @@
 <body>
     <div class="container">
         <header>
-            <div class="header-main">
+            <div class="navbar">
                 <div class="logo">
                     <img src="logo.png" alt="Logo">
                 </div>
-                <div class="header-title">
-                    <span class="time">1:00</span>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active" data-tab="panel">Panel</a>
+                    <a href="#" class="nav-link" data-tab="analisis">Análisis</a>
+                    <a href="#" class="nav-link" data-tab="operar">Operar</a>
+                    <a href="#" class="nav-link" data-tab="senales">Señales</a>
                 </div>
-                <div class="header-icons">
-                    <span class="icon">📶</span>
-                    <span class="icon">🔋</span>
-                </div>
-                <div class="hamburger-menu">
-                    <button class="hamburger-button">&#9776;</button>
-                    <div class="dropdown-menu">
-                        <a href="#" data-tab="admin">Admin</a>
-                        <a href="#" data-tab="ajustes">Ajustes</a>
+                <div class="header-right">
+                    <div class="header-icons">
+                        <span class="icon">📶</span>
+                        <span class="icon">🔋</span>
+                    </div>
+                    <div class="hamburger-menu">
+                        <button class="hamburger-button">&#9776;</button>
+                        <div class="dropdown-menu">
+                            <a href="#" data-tab="admin">Admin</a>
+                            <a href="#" data-tab="ajustes">Ajustes</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,13 +53,6 @@
                 </div>
             </div>
         </header>
-
-        <nav class="tabs">
-            <button class="tab-link active" data-tab="panel">Panel</button>
-            <button class="tab-link" data-tab="analisis">Análisis</button>
-            <button class="tab-link" data-tab="operar">Operar</button>
-            <button class="tab-link" data-tab="senales">Señales</button>
-        </nav>
 
         <main>
             <div id="panel" class="tab-content active">
