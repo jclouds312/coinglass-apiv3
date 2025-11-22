@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contents = document.querySelectorAll('.tab-content');
     const apiKeyInput = document.getElementById('api-key-input');
     const saveApiKeyBtn = document.getElementById('save-api-key');
+    const showApiKeyCheckbox = document.getElementById('show-api-key');
     const technicalAnalysisGaugeCtx = document.getElementById('technical-analysis-gauge').getContext('2d');
 
     // Tab switching logic
@@ -24,6 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // Here you would typically send the API key to the backend to be stored securely
             console.log('API Key saved:', apiKey);
             alert('API Key guardada con éxito.');
+        }
+    });
+
+    // Show/Hide API key
+    showApiKeyCheckbox.addEventListener('change', () => {
+        if (showApiKeyCheckbox.checked) {
+            apiKeyInput.type = 'text';
+        } else {
+            apiKeyInput.type = 'password';
         }
     });
 
