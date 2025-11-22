@@ -14,7 +14,9 @@
   ];
 
   # Sets environment variables in the workspace
-  env = {};
+  env = {
+    API_KEY = "8583-A399";
+  };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
