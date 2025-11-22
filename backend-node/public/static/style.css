@@ -26,12 +26,9 @@ header {
     margin-bottom: 10px;
 }
 
-.back-button {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 24px;
-    cursor: pointer;
+.logo img {
+    width: 40px; 
+    height: 40px;
 }
 
 .header-title .time {
@@ -152,13 +149,14 @@ header {
     text-align: center;
 }
 
-.technical-analysis {
+.technical-analysis, .trading-widget, .signal, .api-settings {
     background-color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
+    margin-bottom: 20px;
 }
 
-.technical-analysis h2 {
+.technical-analysis h2, .trading-widget h2, .signal h2, .api-settings h2 {
     text-align: center;
     margin-bottom: 20px;
 }
@@ -200,12 +198,13 @@ header {
     transform: translateX(-50%);
 }
 
-.analysis-summary {
+.analysis-summary, .trading-widget, .signal {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.summary-item {
+.summary-item, .signal p {
     text-align: center;
 }
 
@@ -219,19 +218,39 @@ header {
     font-weight: bold;
 }
 
+.trading-widget label {
+    margin-bottom: 5px;
+}
+
+.trading-widget input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #333;
+    background-color: #2a2a2a;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.trade-btn, .close-trade-btn {
+    padding: 10px;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.trade-btn {
+    background-color: #007bff;
+}
+
+.close-trade-btn {
+    background-color: #f44336;
+}
+
+
 /* API Settings */
-.api-settings {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-}
-
-.api-settings h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 .api-settings p {
     text-align: center;
     color: #888;
