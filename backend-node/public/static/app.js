@@ -6,6 +6,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveApiKeyBtn = document.getElementById('save-api-key');
     const showApiKeyCheckbox = document.getElementById('show-api-key');
     const technicalAnalysisGaugeCtx = document.getElementById('technical-analysis-gauge').getContext('2d');
+    const hamburgerBtn = document.querySelector('.hamburger-button');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    // Hamburger menu logic
+    hamburgerBtn.addEventListener('click', () => {
+        dropdownMenu.classList.toggle('show');
+    });
+
+    window.addEventListener('click', (e) => {
+        if (!hamburgerBtn.contains(e.target)) {
+            dropdownMenu.classList.remove('show');
+        }
+    });
+
+    // Dropdown menu tab switching
+    dropdownMenu.addEventListener('click', (e) => {
+        if (e.target.matches('[data-tab]')) {
+            const tab = e.target.dataset.tab;
+            tabs.forEach(item => item.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            dropdownMenu.classList.remove('show');
+        }
+    });
 
     // Tab switching logic
     tabs.forEach(tab => {
