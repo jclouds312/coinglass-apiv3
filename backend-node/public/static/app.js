@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE_URL = 'http://localhost:3000'; // The base URL of the Node.js backend API
+    const API_BASE_URL = ''; // The base URL of the Node.js backend API
 
     // Chart.js instance
     let priceChart = null;

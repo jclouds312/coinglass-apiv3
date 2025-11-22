@@ -1,15 +1,107 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coinglass API Dashboard</title>
+    <title>Dashboard de Trading</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Coinglass API Dashboard</h1>
-    <div id="app"></div>
+    <div class="container">
+        <header>
+            <div class="header-main">
+                <button class="back-button">&lt;</button>
+                <div class="header-title">
+                    <span class="time">1:00</span>
+                </div>
+                <div class="header-icons">
+                    <span class="icon">📶</span>
+                    <span class="icon">🔋</span>
+                </div>
+            </div>
+            <div class="crypto-prices">
+                <div class="crypto">
+                    <span class="name">US 100 Cash CFD</span>
+                    <span class="price">24.297,7</span>
+                    <span class="change positive">+302,60 (+1,26%)</span>
+                </div>
+                <div class="crypto">
+                    <span class="name">EUR to USD</span>
+                    <span class="price">1,15035</span>
+                    <span class="change negative">-0,00 (-0,20%)</span>
+                </div>
+                <div class="crypto">
+                    <span class="name">Bitcoin</span>
+                    <span class="price">85.107</span>
+                    <span class="change negative">-1.420,00 (-1,64%)</span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-link active" data-tab="panel">Panel</button>
+            <button class="tab-link" data-tab="analisis">Análisis</button>
+            <button class="tab-link" data-tab="apis">APIs</button>
+            <button class="tab-link" data-tab="senales">Señales</button>
+            <button class="tab-link" data-tab="ajustes">Ajustes</button>
+        </nav>
+
+        <main>
+            <div id="panel" class="tab-content active">
+                <div class="config-required">
+                    <p>&gt; Configuración Requerida</p>
+                    <p>Por favor, introduce tu clave de API de Coinglass en la pestaña de Ajustes para ver las métricas del panel.</p>
+                </div>
+            </div>
+            <div id="analisis" class="tab-content">
+                <div class="technical-analysis">
+                    <h2>Análisis técnico de BTCUSD</h2>
+                    <div class="time-frames">
+                        <button class="time-frame-btn active">15 minutos</button>
+                        <button class="time-frame-btn">30 minutos</button>
+                        <button class="time-frame-btn">1 hora</button>
+                        <button class="time-frame-btn">2 horas</button>
+                    </div>
+                    <div class="gauge-container">
+                        <canvas id="technical-analysis-gauge"></canvas>
+                        <div class="gauge-label">Compra</div>
+                    </div>
+                    <div class="analysis-summary">
+                        <div class="summary-item">
+                            <span class="label">Venta</span>
+                            <span class="value" id="sell-value">7</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Neutral</span>
+                            <span class="value" id="neutral-value">8</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Compra</span>
+                            <span class="value" id="buy-value">11</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="apis" class="tab-content">
+                <p>Contenido de APIs</p>
+            </div>
+            <div id="senales" class="tab-content">
+                <p>Contenido de Señales</p>
+            </div>
+            <div id="ajustes" class="tab-content">
+                <p>Contenido de Ajustes</p>
+                 <div class="api-settings">
+                    <h2>Configuración de API</h2>
+                    <p>Introduce tu clave de API de Coinglass para habilitar la funcionalidad completa.</p>
+                    <input type="text" id="api-key-input" placeholder="Tu clave de API">
+                    <button id="save-api-key">Guardar Clave</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>

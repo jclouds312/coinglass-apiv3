@@ -1,66 +1,218 @@
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
-    background-color: #f0f2f5;
-    color: #333;
+    background-color: #121212;
+    color: #ffffff;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 450px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
 }
 
-.header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.header h1 {
-    font-size: 2.5rem;
-    color: #1a73e8;
-}
-
-.header p {
-    font-size: 1.2rem;
-    color: #5f6368;
-}
-
-.main-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-.chart-container {
-    background-color: #fff;
-    padding: 20px;
+header {
+    background-color: #1e1e1e;
+    padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    margin-bottom: 20px;
 }
 
-.stats-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.stat-card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    text-align: center;
-}
-
-.stat-card h2 {
-    font-size: 1.2rem;
-    color: #5f6368;
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-.stat-card p {
-    font-size: 2rem;
-    font-weight: 500;
-    color: #1a73e8;
+.back-button {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.header-title .time {
+    font-size: 16px;
+}
+
+.header-icons .icon {
+    margin-left: 10px;
+}
+
+.crypto-prices {
+    display: flex;
+    justify-content: space-around;
+}
+
+.crypto {
+    text-align: center;
+}
+
+.crypto .name {
+    display: block;
+    font-size: 12px;
+    color: #888;
+}
+
+.crypto .price {
+    font-size: 16px;
+}
+
+.crypto .change {
+    font-size: 12px;
+}
+
+.crypto .change.positive {
+    color: #4caf50;
+}
+
+.crypto .change.negative {
+    color: #f44336;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+}
+
+.tab-link {
+    background: none;
+    border: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.tab-link.active {
+    background-color: #007bff;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.config-required {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.technical-analysis {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.technical-analysis h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.time-frames {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.time-frame-btn {
+    background: #333;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.time-frame-btn.active {
+    background: #007bff;
+    border-color: #007bff;
+}
+
+.gauge-container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto 20px;
+    text-align: center;
+}
+
+.gauge-label {
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.analysis-summary {
+    display: flex;
+    justify-content: space-around;
+}
+
+.summary-item {
+    text-align: center;
+}
+
+.summary-item .label {
+    display: block;
+    color: #888;
+}
+
+.summary-item .value {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* API Settings */
+.api-settings {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.api-settings h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.api-settings p {
+    text-align: center;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.api-settings input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #333;
+    background-color: #2a2a2a;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.api-settings button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
 }
