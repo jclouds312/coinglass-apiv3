@@ -22,9 +22,22 @@ document.addEventListener('DOMContentLoaded', () => {
     saveApiKeyBtn.addEventListener('click', () => {
         const apiKey = apiKeyInput.value;
         if (apiKey) {
-            // Here you would typically send the API key to the backend to be stored securely
-            console.log('API Key saved:', apiKey);
-            alert('API Key guardada con éxito.');
+            fetch('/api/save-key', { // Assuming an endpoint to save the key
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ apiKey }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('API Key guardada con éxito.');
+                    fetchData(); // Fetch data once the key is saved
+                } else {
+                    alert('Error al guardar la API Key.');
+                }
+            });
         }
     });
 
@@ -43,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data: {
             labels: ['Venta Fuerte', 'Venta', 'Neutral', 'Compra', 'Compra Fuerte'],
             datasets: [{
-                data: [10, 15, 20, 25, 30],
+                data: [0, 0, 100, 0, 0], // Initial state
                 backgroundColor: ['#f44336', '#ff9800', '#ffeb3b', '#4caf50', '#2196f3'],
                 borderWidth: 0,
                 circumference: 180, // Half circle
@@ -65,9 +78,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Fetch data from Coinglass
+    function fetchData() {
+        fetch('/api/liquidation-history?exchange=Binance&symbol=BTC&interval=h1&limit=10')
+            .then(response => response.json())
+            .then(apiData => {
+                if(apiData.success) {
+                    const latestData = apiData.data[apiData.data.length - 1];
+                    // Example of updating the gauge. You need to define how to interpret the data.
+                    // This is just a placeholder logic.
+                    const { price, volume } = latestData;
+                    let sell = 0, neutral = 0, buy = 0;
+                    if (volume > 16000000) {
+                        buy = 20;
+                    } else if (volume < 15500000) {
+                        sell = 20;
+                    } else {
+                        neutral = 20;
+                    }
+                    updateGauge(sell, neutral, buy);
+                } else {
+                    console.log('Failed to fetch data, using mock data or showing error.');
+                    // Keep initial state or show error message
+                }
+            });
+    }
+
     // Update gauge based on analysis
     function updateGauge(sell, neutral, buy) {
         const total = sell + neutral + buy;
+        if(total === 0) return;
         const sellPercentage = (sell / total) * 100;
         const neutralPercentage = (neutral / total) * 100;
         const buyPercentage = (buy / total) * 100;
@@ -76,40 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('neutral-value').textContent = neutral;
         document.getElementById('buy-value').textContent = buy;
 
-        let pointerValue = 50; // Default to neutral
-        if (buy > sell) {
-            pointerValue = 50 + (buy / (buy + sell)) * 50;
-        } else if (sell > buy) {
-            pointerValue = 50 - (sell / (buy + sell)) * 50;
-        }
-
-        // This is a simplified logic for the needle. A real implementation might be more complex.
-        const needle = {
-            id: 'needle',
-            afterDatasetDraw(chart, args, options) {
-                const { ctx, data } = chart;
-                const angle = Math.PI * (pointerValue / 100) - Math.PI / 2;
-
-                const x = chart.getDatasetMeta(0).data[0].x;
-                const y = chart.getDatasetMeta(0).data[0].y;
-
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(angle);
-                ctx.beginPath();
-                ctx.moveTo(0, -5);
-                ctx.lineTo(80, 0);
-                ctx.lineTo(0, 5);
-                ctx.fillStyle = '#ffffff';
-                ctx.fill();
-                ctx.restore();
-            }
-        };
-
-        gauge.config.plugins = [needle];
+        // Update chart data
+        gauge.data.datasets[0].data = [sell, 0, neutral, 0, buy]; // Simplified for 5 sections
         gauge.update();
     }
 
-    // Initial gauge update
-    updateGauge(7, 8, 11);
+    // Initial data fetch
+    fetchData();
 });
